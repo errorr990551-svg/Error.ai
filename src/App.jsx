@@ -7,11 +7,9 @@ import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-red-100 selection:text-red-900">
+    <div className="min-h-screen bg-[#F4F3ED] font-sans text-[#0A0A0A] selection:bg-[#FF4D00]/20 selection:text-[#FF4D00]">
       <Navbar />
       <Home />
-      
-      
     </div>
   );
 };
