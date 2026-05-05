@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
     <footer className="bg-[#050505] text-white pt-16 pb-10 border-t border-white/5">
@@ -6,9 +6,9 @@ const Footer = () => (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
                 <div className="md:col-span-1">
                     <div className="mb-6">
-                        <span className="font-heading font-black text-3xl tracking-tighter text-white">
+                        <Link to="/" className="font-heading font-black text-3xl tracking-tighter text-white">
                             Errorr<span className="text-[#FF4D00]">.</span>in
-                        </span>
+                        </Link>
                     </div>
                     <p className="text-gray-400 text-sm leading-relaxed mb-8 pr-4">
                         Performance-obsessed digital marketing for startups, local businesses, law firms, real estate, and manufacturers across India.
@@ -53,8 +53,8 @@ const Footer = () => (
                 <div>
                     <h4 className="text-sm font-bold tracking-widest uppercase mb-6 text-white">Company</h4>
                     <ul className="space-y-4 text-gray-400 text-sm">
-                        <li><a href="#" className="hover:text-[#FF4D00] transition-colors">About Us</a></li>
-                        <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Contact</a></li>
+                        <li><Link to="/" className="hover:text-[#FF4D00] transition-colors">About Us</Link></li>
+                        <li><Link to="/free-audit" className="hover:text-[#FF4D00] transition-colors">Contact</Link></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Case Studies</a></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Blog</a></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Privacy Policy</a></li>

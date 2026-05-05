@@ -55,7 +55,7 @@ const Hero = () => (
         <div className="relative w-full max-w-lg mx-auto lg:ml-auto flex justify-center">
           <div className="space-y-4 w-full max-w-md">
             {/* Card 1 */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="bg-white p-6 rounded-[1.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.04)] flex items-center gap-6 transform hover:scale-[1.02] transition-transform cursor-default border border-gray-50/50"
@@ -70,7 +70,7 @@ const Hero = () => (
             </motion.div>
 
             {/* Card 2 */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -20, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
               className="bg-white p-6 rounded-[1.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.04)] flex items-center gap-6 translate-x-4 lg:translate-x-8 transform hover:scale-[1.02] transition-transform cursor-default border border-gray-50/50"
@@ -85,7 +85,7 @@ const Hero = () => (
             </motion.div>
 
             {/* Card 3 */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
               className="bg-white p-6 rounded-[1.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.04)] flex items-center gap-6 transform hover:scale-[1.02] transition-transform cursor-default border border-gray-50/50"
@@ -155,7 +155,7 @@ const Services = () => {
     <div className="py-24 bg-brand-offwhite border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
-          <h2 className="text-[#FF4D00] font-bold tracking-widest text-xs uppercase mb-4">What We Do</h2>
+          <h2 className="text-[#FF4D00] font-bold tracking-widest text-[16px] uppercase mb-4">What We Do</h2>
           <h3 className="text-4xl md:text-[4rem] font-bold text-brand-dark mb-6 tracking-tight max-w-3xl leading-[1.2] font-heading">
             Full-Stack Digital <br />
             Marketing
@@ -192,7 +192,7 @@ const Process = () => (
   <div className="py-24 bg-white border-t border-gray-100">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-20 max-w-4xl mx-auto text-center">
-        <h2 className="text-[#FF4D00] font-bold tracking-widest text-xs uppercase mb-4">Our Process</h2>
+        <h2 className="text-[#FF4D00] font-bold tracking-widest text-[16px] uppercase mb-4">Our Process</h2>
         <h3 className="text-4xl md:text-6xl font-bold text-brand-dark mb-6 tracking-tight leading-[1.2] font-heading">From Strategy to Scale</h3>
         <p className="text-gray-500 text-base max-w-xl leading-relaxed font-medium opacity-80 mx-auto">
           We follow a clear, transparent process designed to get you results fast — and keep improving over time.
@@ -229,8 +229,8 @@ const Stats = () => (
   <div className="py-24 bg-brand-offwhite border-t border-gray-100">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-16">
-        <h2 className="text-[#FF4D00] font-bold tracking-widest text-xs uppercase mb-4">By The Numbers</h2>
-        <h3 className="text-4xl md:text-6xl font-bold text-brand-dark tracking-tight leading-[1.2]">Real Results We're Proud Of</h3>
+        <h2 className="text-[#FF4D00] font-bold tracking-widest text-[16px] uppercase mb-4">By The Numbers</h2>
+        <h3 className="text-4xl md:text-[4rem] font-bold text-brand-dark tracking-tight leading-[1.2] font-heading pb-2">Real Results We're Proud Of</h3>
       </div>
 
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-x-auto overflow-hidden">
@@ -276,8 +276,8 @@ const Industries = () => {
     <div className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
-          <h2 className="text-[#FF4D00] font-bold tracking-widest text-xs uppercase mb-4">Industries We Serve</h2>
-          <h3 className="text-4xl md:text-5xl lg:text-[4rem] font-bold text-[#0A0A0A] mb-6 tracking-tight max-w-4xl leading-[1.2] font-heading">
+          <h2 className="text-[#FF4D00] font-bold tracking-widest text-[16px] uppercase mb-4">Industries We Serve</h2>
+          <h3 className="text-4xl md:text-[4rem] font-bold text-[#0A0A0A] mb-6 tracking-tight max-w-4xl leading-[1.2] font-heading pb-2">
             Built for <br />
             Businesses Ready <br />
             to Grow
@@ -307,7 +307,7 @@ const Testimonials = () => (
   <div className="py-24 bg-white border-t border-gray-100">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-16">
-        <h2 className="text-[#FF4D00] font-bold tracking-widest text-xs uppercase mb-4">Client Love</h2>
+        <h2 className="text-[#FF4D00] font-bold tracking-widest text-[16px] uppercase mb-4">Client Love</h2>
         <h3 className="text-4xl md:text-6xl font-bold text-brand-dark tracking-tight leading-[1.2]">What Our Clients Say</h3>
       </div>
 

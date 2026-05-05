@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Menu, 
   X, 
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const location = useLocation();
 
   // Handle scroll effect for sticky navbar
   useEffect(() => {
@@ -48,6 +50,8 @@ const Navbar = () => {
     { title: "Testimonials", desc: "What our clients say" },
   ];
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <nav className="fixed w-full z-50 bg-white border-b border-gray-100 py-4 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,33 +59,39 @@ const Navbar = () => {
           
           {/* --- LOGO SECTION (LEFT) --- */}
           <div className="flex-shrink-0 flex items-center cursor-pointer">
-            <a href="/" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2 group">
               <span className="font-heading font-black text-3xl tracking-tighter text-[#0A0A0A]">
                 Errorr<span className="text-[#FF4D00]">.</span>in
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* --- RIGHT SECTION (LINKS + CTA) --- */}
           <div className="hidden md:flex items-center space-x-10">
-            <a href="/" className="text-[#FF4D00] font-bold transition-colors text-sm hover:opacity-80">
+            <Link 
+              to="/" 
+              className={`font-bold transition-colors text-sm hover:opacity-80 ${isActive('/') ? 'text-[#FF4D00]' : 'text-[#0A0A0A]'}`}
+            >
               Home
-            </a>
+            </Link>
 
             <a href="#" className="text-[#0A0A0A] font-bold hover:text-[#FF4D00] transition-colors text-sm">
               About
             </a>
 
-            <a href="#" className="text-[#0A0A0A] font-bold hover:text-[#FF4D00] transition-colors text-sm">
+            <Link 
+              to="/services" 
+              className={`font-bold transition-colors text-sm hover:text-[#FF4D00] ${isActive('/services') ? 'text-[#FF4D00]' : 'text-[#0A0A0A]'}`}
+            >
               Services
-            </a>
+            </Link>
 
-            <a 
-              href="#contact" 
+            <Link 
+              to="/free-audit" 
               className="bg-[#0A0A0A] text-white px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 hover:bg-[#FF4D00] hover:shadow-lg flex items-center"
             >
               Get a Free Audit
-            </a>
+            </Link>
           </div>
 
 
@@ -134,9 +144,9 @@ const Navbar = () => {
           </div>
 
           <div className="pt-4 mt-4 border-t border-gray-100">
-            <a href="#contact" className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-3 rounded-full font-medium text-base hover:bg-brand-orange transition-colors shadow-lg">
+            <Link to="/free-audit" className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-3 rounded-full font-medium text-base hover:bg-brand-orange transition-colors shadow-lg">
               Get a Free Audit <Phone size={18} className="ml-2" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
