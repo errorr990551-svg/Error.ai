@@ -114,38 +114,38 @@ const Navbar = () => {
           isOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-4 pt-4 pb-8 space-y-2 h-full overflow-y-auto">
-          <a href="#" className="block px-4 py-3 text-base font-medium text-brand-orange hover:bg-gray-50 rounded-lg">
+        <div className="px-4 pt-4 pb-8 space-y-2">
+          <Link 
+            to="/" 
+            onClick={() => setIsOpen(false)}
+            className={`block px-4 py-4 text-lg font-bold rounded-xl transition-colors ${isActive('/') ? 'text-brand-orange bg-brand-orange/5' : 'text-brand-dark hover:bg-gray-50'}`}
+          >
             Home
-          </a>
+          </Link>
           
-          {/* Mobile About */}
-          <div className="space-y-1">
-            <div className="px-4 py-3 text-base font-medium text-brand-dark bg-gray-50 rounded-lg">About Us</div>
-            <div className="pl-6 space-y-1 border-l-2 border-gray-200 ml-4">
-              {aboutLinks.map((l, i) => (
-                <a key={i} href="#" className="block px-4 py-2.5 text-sm text-gray-600 hover:text-brand-orange hover:bg-gray-50 rounded-r-lg">
-                  {l.title}
-                </a>
-              ))}
-            </div>
-          </div>
+          <Link 
+            to="/" 
+            onClick={() => setIsOpen(false)}
+            className="block px-4 py-4 text-lg font-bold text-brand-dark hover:bg-gray-50 rounded-xl transition-colors"
+          >
+            About
+          </Link>
 
-          {/* Mobile Services */}
-          <div className="space-y-1">
-            <div className="px-4 py-3 text-base font-medium text-brand-dark bg-gray-50 rounded-lg">Services</div>
-            <div className="pl-6 space-y-1 border-l-2 border-gray-200 ml-4">
-              {services.map((s, i) => (
-                <a key={i} href="#" className="block px-4 py-2.5 text-sm text-gray-600 hover:text-brand-orange hover:bg-gray-50 rounded-r-lg">
-                  {s.title}
-                </a>
-              ))}
-            </div>
-          </div>
+          <Link 
+            to="/services" 
+            onClick={() => setIsOpen(false)}
+            className={`block px-4 py-4 text-lg font-bold rounded-xl transition-colors ${isActive('/services') ? 'text-brand-orange bg-brand-orange/5' : 'text-brand-dark hover:bg-gray-50'}`}
+          >
+            Services
+          </Link>
 
           <div className="pt-4 mt-4 border-t border-gray-100">
-            <Link to="/free-audit" className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-3 rounded-full font-medium text-base hover:bg-brand-orange transition-colors shadow-lg">
-              Get a Free Audit <Phone size={18} className="ml-2" />
+            <Link 
+              to="/free-audit" 
+              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-4 rounded-full font-bold text-lg hover:bg-brand-orange transition-all shadow-lg active:scale-95"
+            >
+              Get a Free Audit <ArrowRight size={20} className="ml-2" />
             </Link>
           </div>
         </div>

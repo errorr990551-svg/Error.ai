@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   Search,
@@ -42,12 +43,18 @@ const Hero = () => (
             Errorr.in is the growth partner for startups, local businesses, manufacturers, and ambitious brands who want real results — not vanity metrics.
           </p>
           <div className="flex flex-wrap gap-3">
-            <button className="px-8 py-3.5 bg-[#FF4D00] text-white rounded-xl font-bold text-base hover:bg-[#e64500] hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/20">
+            <Link 
+              to="/services" 
+              className="px-8 py-3.5 bg-[#FF4D00] text-white rounded-xl font-bold text-base hover:bg-[#e64500] hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/20 inline-block"
+            >
               Explore Services
-            </button>
-            <button className="px-8 py-3.5 bg-transparent text-[#0A0A0A] border-2 border-[#0A0A0A]/10 rounded-xl font-bold text-base hover:bg-[#0A0A0A] hover:text-white transition-all duration-300">
+            </Link>
+            <Link 
+              to="/free-audit" 
+              className="px-8 py-3.5 bg-transparent text-[#0A0A0A] border-2 border-[#0A0A0A]/10 rounded-xl font-bold text-base hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 inline-block"
+            >
               Free Strategy Call
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -178,9 +185,12 @@ const Services = () => {
         </div>
 
         <div className="mt-12">
-          <button className="px-8 py-4 bg-[#FF4D00] text-white rounded-full font-semibold hover:bg-[#e64500] hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/20">
+          <Link 
+            to="/services" 
+            className="px-8 py-4 bg-[#FF4D00] text-white rounded-full font-semibold hover:bg-[#e64500] hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/20 inline-block"
+          >
             View All Services &rarr;
-          </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -371,9 +381,12 @@ const CTA = () => (
         </div>
 
         <div className="flex-shrink-0">
-          <button className="px-8 py-3.5 bg-[#FF4D00] text-white rounded-2xl font-bold text-base hover:bg-white hover:text-[#0A0A0A] transition-all duration-300 shadow-xl shadow-orange-500/20 whitespace-nowrap">
+          <Link 
+            to="/free-audit" 
+            className="px-8 py-3.5 bg-[#FF4D00] text-white rounded-2xl font-bold text-base hover:bg-white hover:text-[#0A0A0A] transition-all duration-300 shadow-xl shadow-orange-500/20 whitespace-nowrap inline-block"
+          >
             Book Free Call &rarr;
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from "./components/common/Navbar";
+import AuditPopup from "./components/common/AuditPopup";
 import Home from "./pages/Home";
 import FreeAudit from "./pages/FreeAudit";
 import Services from "./pages/Services";
@@ -19,6 +20,7 @@ const App = () => {
     <div className="min-h-screen bg-brand-offwhite font-sans text-brand-dark selection:bg-brand-orange/20 selection:text-brand-orange">
       <ScrollToTop />
       <Navbar />
+      <AuditPopup />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
