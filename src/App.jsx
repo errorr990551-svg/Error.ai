@@ -5,6 +5,8 @@ import AuditPopup from "./components/common/AuditPopup";
 import Home from "./pages/Home";
 import FreeAudit from "./pages/FreeAudit";
 import Services from "./pages/Services";
+import About from "./pages/About";
+import CaseStudyIotaflow from "./pages/CaseStudyIotaflow";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -24,6 +26,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/case-studies/iotaflow" element={<CaseStudyIotaflow />} />
         <Route path="/free-audit" element={<FreeAudit />} />
       </Routes>
     </div>

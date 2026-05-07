@@ -75,15 +75,25 @@ const Navbar = () => {
               Home
             </Link>
 
-            <a href="#" className="text-[#0A0A0A] font-bold hover:text-[#FF4D00] transition-colors text-sm">
+            <Link 
+              to="/about" 
+              className={`font-bold transition-colors text-sm hover:text-[#FF4D00] ${isActive('/about') ? 'text-[#FF4D00]' : 'text-[#0A0A0A]'}`}
+            >
               About
-            </a>
+            </Link>
 
             <Link 
               to="/services" 
               className={`font-bold transition-colors text-sm hover:text-[#FF4D00] ${isActive('/services') ? 'text-[#FF4D00]' : 'text-[#0A0A0A]'}`}
             >
               Services
+            </Link>
+
+            <Link 
+              to="/case-studies/iotaflow" 
+              className={`font-bold transition-colors text-sm hover:text-[#FF4D00] ${isActive('/case-studies/iotaflow') ? 'text-[#FF4D00]' : 'text-[#0A0A0A]'}`}
+            >
+              Case Studies
             </Link>
 
             <Link 
@@ -124,9 +134,9 @@ const Navbar = () => {
           </Link>
           
           <Link 
-            to="/" 
+            to="/about" 
             onClick={() => setIsOpen(false)}
-            className="block px-4 py-4 text-lg font-bold text-brand-dark hover:bg-gray-50 rounded-xl transition-colors"
+            className={`block px-4 py-4 text-lg font-bold rounded-xl transition-colors ${isActive('/about') ? 'text-brand-orange bg-brand-orange/5' : 'text-brand-dark hover:bg-gray-50'}`}
           >
             About
           </Link>
@@ -137,6 +147,14 @@ const Navbar = () => {
             className={`block px-4 py-4 text-lg font-bold rounded-xl transition-colors ${isActive('/services') ? 'text-brand-orange bg-brand-orange/5' : 'text-brand-dark hover:bg-gray-50'}`}
           >
             Services
+          </Link>
+
+          <Link 
+            to="/case-studies/iotaflow" 
+            onClick={() => setIsOpen(false)}
+            className={`block px-4 py-4 text-lg font-bold rounded-xl transition-colors ${isActive('/case-studies/iotaflow') ? 'text-brand-orange bg-brand-orange/5' : 'text-brand-dark hover:bg-gray-50'}`}
+          >
+            Case Studies
           </Link>
 
           <div className="pt-4 mt-4 border-t border-gray-100">
