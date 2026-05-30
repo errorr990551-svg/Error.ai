@@ -57,7 +57,7 @@ const Footer = () => (
                         <li><Link to="/free-audit" className="hover:text-[#FF4D00] transition-colors">Contact</Link></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Case Studies</a></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Blog</a></li>
-                        <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Privacy Policy</a></li>
+                        <li><Link to="/privacy-policy" className="hover:text-[#FF4D00] transition-colors">Privacy Policy</Link></li>
                         <li><a href="#" className="hover:text-[#FF4D00] transition-colors">Terms of Service</a></li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@ const Footer = () => (
 
             <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
                 <p>&copy; 2024 Errorr.in. Founded by Akshat Raj. All rights reserved.</p>
-                <p className="mt-4 md:mt-0 hover:text-white cursor-pointer transition-colors">hello@errorr.in</p>
+                <p className="mt-4 md:mt-0 hover:text-white cursor-pointer transition-colors">errorr990551@gmail.com</p>
             </div>
         </div>
     </footer>

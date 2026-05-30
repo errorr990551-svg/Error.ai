@@ -35,7 +35,7 @@ const FreeAudit = () => {
                 <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
                   <Mail size={18} className="text-purple-500" />
                 </div>
-                <span className="text-brand-dark font-bold text-sm">hello@errorr.in</span>
+                <span className="text-brand-dark font-bold text-sm">errorr990551@gmail.com</span>
               </div>
 
               <div className="flex items-center gap-4 group">

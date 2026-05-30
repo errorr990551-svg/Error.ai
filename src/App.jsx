@@ -7,6 +7,7 @@ import FreeAudit from "./pages/FreeAudit";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import CaseStudyIotaflow from "./pages/CaseStudyIotaflow";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/case-studies/iotaflow" element={<CaseStudyIotaflow />} />
         <Route path="/free-audit" element={<FreeAudit />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
     </div>
   );
