@@ -17,12 +17,22 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const rawKey = (env && env.RESEND_API_KEY) ? env.RESEND_API_KEY : '';
-        const apiKey = rawKey.trim().replace(/^["']|["']$/g, '');
+        
+        // Comprehensive lookup across all Cloudflare environment bindings
+        let rawKey = '';
+        if (env && env.RESEND_API_KEY) {
+          rawKey = env.RESEND_API_KEY;
+        } else if (typeof RESEND_API_KEY !== 'undefined' && RESEND_API_KEY) {
+          rawKey = RESEND_API_KEY;
+        } else if (typeof globalThis !== 'undefined' && globalThis.RESEND_API_KEY) {
+          rawKey = globalThis.RESEND_API_KEY;
+        }
+
+        const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : '';
 
         if (!apiKey) {
           return new Response(
-            JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare.' }),
+            JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare settings.' }),
             { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
           );
         }
