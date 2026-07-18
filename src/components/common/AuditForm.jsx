@@ -22,28 +22,22 @@ const AuditForm = ({ isPopup = false }) => {
       isPopup,
     };
 
+    const backendUrl = import.meta.env.VITE_API_URL || 'https://error-ai-email-backend.errorr990551.workers.dev';
+
     try {
-      // Try local/Cloudflare Worker endpoint first, then standalone backend
-      let res = await fetch('/api/send-email', {
+      const res = await fetch(backendUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(payload),
       });
-
-      if (res.status === 405 || res.status === 404) {
-        // Fallback to dedicated worker backend
-        res = await fetch('https://error-ai-email-backend.errorr990551.workers.dev', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      }
 
       let data;
       try {
         data = await res.json();
       } catch (jsonErr) {
-        throw new Error('Server returned invalid response format.');
+        throw new Error('Backend server returned an invalid response.');
       }
 
       if (res.ok && data.success) {
