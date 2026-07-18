@@ -1,16 +1,19 @@
 export default {
   async fetch(request, env, ctx) {
-    // Handle CORS preflight
+    // ALWAYS handle CORS preflight for all routes
     if (request.method === 'OPTIONS') {
       return new Response(null, {
+        status: 204,
         headers: {
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+          'Access-Control-Max-Age': '86400',
         },
       });
     }
 
+    // Handle POST requests for form submissions
     if (request.method === 'POST') {
       try {
         const body = await request.json();
@@ -70,8 +73,21 @@ export default {
 
         const resData = await resendRes.json();
 
+        if (!resendRes.ok) {
+          return new Response(
+            JSON.stringify({ success: false, error: resData.message || resData.name || 'Failed to send email via Resend' }),
+            {
+              status: resendRes.status,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+            }
+          );
+        }
+
         return new Response(
-          JSON.stringify({ success: true, id: resData.id, resend: resData }),
+          JSON.stringify({ success: true, id: resData.id }),
           {
             status: 200,
             headers: {
@@ -94,7 +110,8 @@ export default {
       }
     }
 
-    return new Response(JSON.stringify({ message: 'Error.ai Backend API' }), {
+    return new Response(JSON.stringify({ status: 'ok', service: 'Error.ai Backend API' }), {
+      status: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
