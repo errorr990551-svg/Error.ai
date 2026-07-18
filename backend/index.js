@@ -17,7 +17,7 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const apiKey = env.RESEND_API_KEY || 're_3tmtmmnG_M6ASo7x2Z2kbLTXCS391ZN4s';
+        const apiKey = env.RESEND_API_KEY || 're_KEimBP9Y_JoMwWsWyzzbpB2vGj4JXChcz';
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
         const recipientEmails = ['errorr990551@gmail.com', 'Info@errorr.in', 'akshat99055@gmail.com', 'vp380123@gmail.com'];
