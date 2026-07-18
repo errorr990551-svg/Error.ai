@@ -17,9 +17,15 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const fallbackKey = 're_GuuydPHy_9nKTbcx1Lp2LpgyAVfe7Vard';
-        const rawKey = (env && env.RESEND_API_KEY) ? env.RESEND_API_KEY : fallbackKey;
+        const rawKey = (env && env.RESEND_API_KEY) ? env.RESEND_API_KEY : '';
         const apiKey = rawKey.trim().replace(/^["']|["']$/g, '');
+
+        if (!apiKey) {
+          return new Response(
+            JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare.' }),
+            { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
+          );
+        }
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
         
