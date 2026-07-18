@@ -22,7 +22,7 @@ const AuditForm = ({ isPopup = false }) => {
       isPopup,
     };
 
-    const backendUrl = import.meta.env.VITE_API_URL || 'https://error-ai-email-backend.errorr990551.workers.dev';
+    const backendUrl = import.meta.env.VITE_API_URL || 'https://erro-ai.errorr990551.workers.dev';
 
     try {
       const res = await fetch(backendUrl, {
