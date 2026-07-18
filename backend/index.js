@@ -28,9 +28,8 @@ export default {
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
         
-        // Note: Resend onboarding@resend.dev testing domain only allows sending to account owner email (errorr990551@gmail.com).
-        // Once your domain (e.g. errorr.in) is verified in resend.com/domains, you can add multiple recipient emails!
-        const recipientEmails = ['errorr990551@gmail.com'];
+        // Verified Domain: inquiry.errorr.in -> All recipients supported!
+        const recipientEmails = ['errorr990551@gmail.com', 'Info@errorr.in', 'akshat99055@gmail.com', 'vp380123@gmail.com'];
         const subject = isPopup ? 'New Popup Audit Request!' : 'New Free Audit Request!';
 
         const htmlContent = `
@@ -74,7 +73,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: 'Error.ai Form <onboarding@resend.dev>',
+            from: 'Error.ai Audit <audit@inquiry.errorr.in>',
             to: recipientEmails,
             subject: subject,
             html: htmlContent,
