@@ -17,7 +17,7 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const rawKey = env.RESEND_API_KEY || 're_2iGCRj1d_3sEpKp5X55U52gG6Yj6buQE4';
+        const rawKey = env.RESEND_API_KEY || 're_5vUPkKVn_5jTQF36RPuba7LjQ5YvN7fmQ';
         const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : '';
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
