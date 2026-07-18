@@ -17,9 +17,9 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const apiKey = env.RESEND_API_KEY ? env.RESEND_API_KEY.trim().replace(/^["']|["']$/g, '') : '';
+        const rawKey = env.RESEND_API_KEY ? env.RESEND_API_KEY.trim().replace(/^["']|["']$/g, '') : '';
 
-        if (!apiKey) {
+        if (!rawKey) {
           return new Response(
             JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare.' }),
             { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
@@ -27,7 +27,10 @@ export default {
         }
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
-        const recipientEmails = ['errorr990551@gmail.com', 'Info@errorr.in', 'akshat99055@gmail.com', 'vp380123@gmail.com'];
+        
+        // Note: Resend onboarding@resend.dev testing domain only allows sending to account owner email (errorr990551@gmail.com).
+        // Once your domain (e.g. errorr.in) is verified in resend.com/domains, you can add multiple recipient emails!
+        const recipientEmails = ['errorr990551@gmail.com'];
         const subject = isPopup ? 'New Popup Audit Request!' : 'New Free Audit Request!';
 
         const htmlContent = `
@@ -67,7 +70,7 @@ export default {
         const resendRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${apiKey}`,
+            'Authorization': `Bearer ${rawKey}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
