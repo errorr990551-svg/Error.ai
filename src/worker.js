@@ -17,8 +17,14 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const rawKey = env.RESEND_API_KEY || 're_5vUPkKVn_5jTQF36RPuba7LjQ5YvN7fmQ';
-        const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : '';
+        const apiKey = env.RESEND_API_KEY ? env.RESEND_API_KEY.trim().replace(/^["']|["']$/g, '') : '';
+
+        if (!apiKey) {
+          return new Response(
+            JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare.' }),
+            { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
+          );
+        }
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
         const recipientEmails = ['errorr990551@gmail.com', 'Info@errorr.in', 'akshat99055@gmail.com', 'vp380123@gmail.com'];
