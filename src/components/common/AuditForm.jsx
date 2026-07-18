@@ -1,20 +1,78 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import CustomSelect from './CustomSelect';
 
 const AuditForm = ({ isPopup = false }) => {
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+
+    const formData = new FormData(e.target);
+    const payload = {
+      firstName: formData.get('First Name'),
+      lastName: formData.get('Last Name'),
+      email: formData.get('Email'),
+      phone: formData.get('Phone'),
+      businessType: formData.get('Business Type'),
+      message: formData.get('Message'),
+      isPopup,
+    };
+
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setStatus('success');
+      } else {
+        setStatus('error');
+        setErrorMessage(data.error || 'Failed to submit form. Please try again.');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setStatus('error');
+      setErrorMessage('Network error. Please try again later.');
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div className="p-8 bg-green-50 rounded-2xl text-center border border-green-200 space-y-3">
+        <CheckCircle size={48} className="text-green-500 mx-auto" />
+        <h3 className="text-xl font-bold text-green-900">Thank You!</h3>
+        <p className="text-sm text-green-700 font-medium">
+          Your audit request has been sent successfully. We will get back to you shortly!
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus('idle')}
+          className="mt-4 px-6 py-2 bg-green-600 text-white font-medium rounded-full text-xs hover:bg-green-700 transition-all"
+        >
+          Submit Another Request
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <form
-      action="https://formsubmit.co/errorr990551@gmail.com"
-      method="POST"
-      className="space-y-4"
-    >
-      {/* FormSubmit Configuration */}
-      <input type="hidden" name="_cc" value="Info@errorr.in,akshat99055@gmail.com,vp380123@gmail.com" />
-      <input type="hidden" name="_subject" value={isPopup ? "New Popup Audit Request!" : "New Free Audit Request!"} />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="text" name="_honey" style={{ display: 'none' }} />
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {status === 'error' && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 text-red-700 text-sm">
+          <AlertCircle size={20} className="shrink-0 text-red-500" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -96,9 +154,18 @@ const AuditForm = ({ isPopup = false }) => {
 
       <button
         type="submit"
-        className="w-full py-4 bg-brand-orange text-white rounded-full font-bold text-base hover:bg-[#e64500] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2"
+        disabled={status === 'loading'}
+        className="w-full py-4 bg-brand-orange text-white rounded-full font-bold text-base hover:bg-[#e64500] hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2"
       >
-        Send Message <ArrowRight size={18} />
+        {status === 'loading' ? (
+          <>
+            <Loader2 className="animate-spin" size={18} /> Sending...
+          </>
+        ) : (
+          <>
+            Send Message <ArrowRight size={18} />
+          </>
+        )}
       </button>
     </form>
   );
