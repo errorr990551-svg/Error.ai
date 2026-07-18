@@ -17,14 +17,9 @@ export default {
     if (request.method === 'POST') {
       try {
         const body = await request.json();
-        const rawKey = env.RESEND_API_KEY ? env.RESEND_API_KEY.trim().replace(/^["']|["']$/g, '') : '';
-
-        if (!rawKey) {
-          return new Response(
-            JSON.stringify({ success: false, error: 'RESEND_API_KEY environment variable is missing in Cloudflare.' }),
-            { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
-          );
-        }
+        const fallbackKey = 're_GuuydPHy_9nKTbcx1Lp2LpgyAVfe7Vard';
+        const rawKey = (env && env.RESEND_API_KEY) ? env.RESEND_API_KEY : fallbackKey;
+        const apiKey = rawKey.trim().replace(/^["']|["']$/g, '');
 
         const { firstName, lastName, email, phone, businessType, message, isPopup } = body;
         
@@ -69,7 +64,7 @@ export default {
         const resendRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${rawKey}`,
+            'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
