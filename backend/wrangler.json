@@ -1,0 +1,8 @@
+{
+  "name": "error-ai-email-backend",
+  "main": "index.js",
+  "compatibility_date": "2024-09-23",
+  "vars": {
+    "RESEND_API_KEY": "re_3tmtmmnG_M6ASo7x2Z2kbLTXCS391ZN4s"
+  }
+}

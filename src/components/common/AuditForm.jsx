@@ -23,15 +23,28 @@ const AuditForm = ({ isPopup = false }) => {
     };
 
     try {
-      const res = await fetch('/api/send-email', {
+      // Try local/Cloudflare Worker endpoint first, then standalone backend
+      let res = await fetch('/api/send-email', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      if (res.status === 405 || res.status === 404) {
+        // Fallback to dedicated worker backend
+        res = await fetch('https://error-ai-email-backend.errorr990551.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error('Server returned invalid response format.');
+      }
 
       if (res.ok && data.success) {
         setStatus('success');
@@ -42,7 +55,7 @@ const AuditForm = ({ isPopup = false }) => {
     } catch (err) {
       console.error('Submission error:', err);
       setStatus('error');
-      setErrorMessage('Network error. Please try again later.');
+      setErrorMessage(err.message || 'Network error. Please try again later.');
     }
   };
 
