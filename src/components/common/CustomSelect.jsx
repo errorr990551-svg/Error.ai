@@ -2,9 +2,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-const CustomSelect = ({ options, placeholder, name }) => {
+const CustomSelect = ({ options, placeholder, name, value, onChange }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = React.useState(value || "");
+
+  React.useEffect(() => {
+    if (value !== undefined) {
+      setSelected(value);
+    }
+  }, [value]);
+
+  const handleSelect = (opt) => {
+    setSelected(opt);
+    setIsOpen(false);
+    if (onChange) {
+      onChange(opt);
+    }
+  };
 
   return (
     <div className="relative">
@@ -34,10 +48,7 @@ const CustomSelect = ({ options, placeholder, name }) => {
             {options.map((opt, i) => (
               <div
                 key={i}
-                onClick={() => {
-                  setSelected(opt);
-                  setIsOpen(false);
-                }}
+                onClick={() => handleSelect(opt)}
                 className={`px-4 py-3 text-sm cursor-pointer transition-colors ${selected === opt
                   ? 'bg-brand-orange text-white'
                   : 'text-brand-dark hover:bg-brand-orange/5'
