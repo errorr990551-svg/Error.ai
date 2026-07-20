@@ -1,6 +1,6 @@
-const { sendMail } = require("../services/emailService");
+import { sendMail } from "../services/emailService.js";
 
-exports.submitContactForm = async (req, res) => {
+export const submitContactForm = async (req, res) => {
   try {
     const { name, firstName, lastName, email, phone, location, company, businessType, message } = req.body;
 

@@ -1,10 +1,13 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import express from "express";
+import cors from "cors";
+import serverless from "serverless-http";
+import dotenv from "dotenv";
 
-const express = require("express");
-const cors = require("cors");
-const serverless = require("serverless-http");
-require("dotenv").config();
+dotenv.config();
+
+import contactRoutes from "./routes/contactRoutes.js";
+import complaintRoutes from "./routes/complaintRoutes.js";
+import applicationRoutes from "./routes/applicationRoutes.js";
 
 const app = express();
 
@@ -20,9 +23,9 @@ app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
-app.use("/api", require("./routes/contactRoutes"));
-app.use("/api", require("./routes/complaintRoutes"));
-app.use("/api", require("./routes/applicationRoutes"));
+app.use("/api", contactRoutes);
+app.use("/api", complaintRoutes);
+app.use("/api", applicationRoutes);
 
 const handler = serverless(app);
 
