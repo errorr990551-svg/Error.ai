@@ -1,134 +1,159 @@
-import express from "express";
-import cors from "cors";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
 import dotenv from "dotenv";
-import { Readable, Writable } from "node:stream";
+import { sendMail } from "./services/emailService.js";
 
 dotenv.config();
 
-import contactRoutes from "./routes/contactRoutes.js";
-import complaintRoutes from "./routes/complaintRoutes.js";
-import applicationRoutes from "./routes/applicationRoutes.js";
+const app = new Hono();
 
-const app = express();
-
-app.use(cors({
+// CORS middleware for all routes
+app.use("*", cors({
   origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowHeaders: ["Content-Type", "Authorization"],
 }));
 
-app.use(express.json());
+// Health check endpoints
+app.get("/", (c) => c.json({ status: "OK", service: "error-ai-backend" }));
+app.get("/health", (c) => c.json({ status: "OK", timestamp: new Date().toISOString() }));
+app.get("/api/health", (c) => c.json({ status: "OK", timestamp: new Date().toISOString() }));
 
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "OK", timestamp: new Date().toISOString() });
-});
+// Contact form endpoint
+app.post("/api/contact", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { name, firstName, lastName, email, phone, location, company, businessType, message } = body;
 
-app.use("/api", contactRoutes);
-app.use("/api", complaintRoutes);
-app.use("/api", applicationRoutes);
+    const fullName = name || `${firstName || ""} ${lastName || ""}`.trim();
+    const comp = company || businessType || "Not Provided";
 
-// Cloudflare Workers fetch handler
-export default {
-  async fetch(request, env, ctx) {
-    // 1. Populate process.env from Cloudflare Worker env
-    if (env) {
-      for (const [key, value] of Object.entries(env)) {
-        if (typeof value === "string") {
-          process.env[key] = value;
-        }
-      }
+    if (!fullName || !email || !phone || !message) {
+      return c.json({ 
+        success: false, 
+        message: "Please fill in all required fields (Name, Email, Phone, Message)." 
+      }, 400);
     }
 
-    // 2. Handle preflight CORS OPTIONS request directly
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
+    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
+    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
+    const ccEmails = (c.env?.RESEND_FROM || process.env.RESEND_FROM) ? ["akshat99055@gmail.com"] : undefined;
+
+    await sendMail({
+      to: toEmail,
+      cc: ccEmails,
+      subject: "New Contact Us / Free Audit Enquiry",
+      html: `
+        <h2>New Contact / Audit Enquiry</h2>
+        <p><b>Name:</b> ${fullName}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Location:</b> ${location || "Not Provided"}</p>
+        <p><b>Business Type / Company:</b> ${comp}</p>
+        <p><b>Message:</b><br/>${message}</p>
+      `,
+      apiKey,
+    });
+
+    return c.json({ 
+      success: true, 
+      message: "Message sent successfully! Our team will get back to you shortly." 
+    });
+
+  } catch (err) {
+    console.error("Contact API error:", err);
+    return c.json({ 
+      success: false, 
+      message: err.message || "Something went wrong sending your message. Please try again later." 
+    }, 500);
+  }
+});
+
+// Complaint endpoint
+app.post("/api/complaint", async (c) => {
+  try {
+    const body = await c.req.parseBody();
+    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
+    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
+
+    const attachments = [];
+    if (body.image && body.image instanceof File) {
+      const arrayBuffer = await body.image.arrayBuffer();
+      attachments.push({
+        filename: body.image.name,
+        content: Buffer.from(arrayBuffer),
+        contentType: body.image.type,
       });
     }
 
-    // 3. Adapt Cloudflare Request object to Express req/res
-    return new Promise(async (resolve) => {
-      try {
-        const url = new URL(request.url);
-        const reqBodyBuffer = await request.arrayBuffer();
-
-        const reqHeaders = {};
-        for (const [k, v] of request.headers.entries()) {
-          reqHeaders[k.toLowerCase()] = v;
-        }
-
-        const reqStream = new Readable({
-          read() {
-            this.push(Buffer.from(reqBodyBuffer));
-            this.push(null);
-          },
-        });
-
-        Object.assign(reqStream, {
-          method: request.method,
-          url: url.pathname + url.search,
-          headers: reqHeaders,
-          rawHeaders: Array.from(request.headers.entries()).flat(),
-        });
-
-        const responseHeaders = new Headers({
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        });
-
-        let statusCode = 200;
-        const responseChunks = [];
-
-        const resStream = new Writable({
-          write(chunk, encoding, callback) {
-            responseChunks.push(Buffer.from(chunk));
-            callback();
-          },
-        });
-
-        resStream.setHeader = (name, value) => {
-          responseHeaders.set(name, value);
-        };
-        resStream.getHeader = (name) => responseHeaders.get(name);
-        resStream.removeHeader = (name) => responseHeaders.delete(name);
-        resStream.writeHead = (code, headers) => {
-          statusCode = code;
-          if (headers) {
-            for (const [k, v] of Object.entries(headers)) {
-              responseHeaders.set(k, v);
-            }
-          }
-        };
-
-        resStream.on("finish", () => {
-          const body = Buffer.concat(responseChunks);
-          resolve(
-            new Response(body, {
-              status: statusCode,
-              headers: responseHeaders,
-            })
-          );
-        });
-
-        app(reqStream, resStream);
-      } catch (err) {
-        console.error("Worker handling error:", err);
-        resolve(
-          new Response(JSON.stringify({ success: false, message: err.message }), {
-            status: 500,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          })
-        );
-      }
+    await sendMail({
+      to: toEmail,
+      subject: "New Complaint Form Submitted",
+      html: `
+        <h2>New Complaint Received</h2>
+        <p><b>Customer Name:</b> ${body.customerName || "Not Provided"}</p>
+        <p><b>Contact Person:</b> ${body.contactPerson || "Not Provided"}</p>
+        <p><b>Email:</b> ${body.email || "Not Provided"}</p>
+        <p><b>Phone:</b> ${body.phone || "Not Provided"}</p>
+        <hr/>
+        <p><b>Flow Meter Model:</b> ${body.flowMeterModel || "Not Provided"}</p>
+        <p><b>Serial Number:</b> ${body.serialNumber || "Not Provided"}</p>
+        <p><b>Flow Meter Size:</b> ${body.flowMeterSize || "Not Provided"}</p>
+        <p><b>Make / Brand:</b> ${body.makeBrand || "Not Provided"}</p>
+        <p><b>Warranty Status:</b> ${body.warrantyStatus || "Not Provided"}</p>
+        <hr/>
+        <p><b>Nature of Complaint:</b> ${body.complaintNature || "Not Provided"}</p>
+        <p><b>Frequency of Issue:</b> ${body.frequency || "Not Provided"}</p>
+        <p><b>Issue Description:</b><br/>${body.issueDescription || "Not Provided"}</p>
+      `,
+      attachments,
+      apiKey,
     });
-  },
-};
+
+    return c.json({ success: true, message: "Complaint submitted successfully!" });
+  } catch (err) {
+    console.error("Complaint API error:", err);
+    return c.json({ success: false, message: err.message || "Failed to submit complaint" }, 500);
+  }
+});
+
+// Application endpoint
+app.post("/api/apply", async (c) => {
+  try {
+    const body = await c.req.parseBody();
+    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
+    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
+
+    const attachments = [];
+    if (body.resume && body.resume instanceof File) {
+      const arrayBuffer = await body.resume.arrayBuffer();
+      attachments.push({
+        filename: body.resume.name,
+        content: Buffer.from(arrayBuffer),
+        contentType: body.resume.type,
+      });
+    }
+
+    await sendMail({
+      to: toEmail,
+      subject: `New Job Application - ${body.role || "General"}`,
+      html: `
+        <h2>New Job Application</h2>
+        <p><b>Name:</b> ${body.fullName || "Not Provided"}</p>
+        <p><b>Email:</b> ${body.email || "Not Provided"}</p>
+        <p><b>Mobile:</b> ${body.mobile || "Not Provided"}</p>
+        <p><b>Location:</b> ${body.location || "Not Provided"}</p>
+        <p><b>Applied For:</b> ${body.role || "Not Provided"}</p>
+      `,
+      attachments,
+      apiKey,
+    });
+
+    return c.json({ success: true, message: "Application submitted successfully!" });
+  } catch (err) {
+    console.error("Application API error:", err);
+    return c.json({ success: false, message: err.message || "Failed to submit application" }, 500);
+  }
+});
+
+export default app;
