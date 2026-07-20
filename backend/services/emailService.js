@@ -2,10 +2,7 @@ import { Resend } from "resend";
 
 export const sendMail = async ({ to, cc, subject, html, attachments = [] }) => {
   try {
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      throw new Error("RESEND_API_KEY is not configured in environment variables.");
-    }
+    const apiKey = process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
     const resend = new Resend(apiKey);
     const fromAddress = process.env.RESEND_FROM || "Errorr <onboarding@resend.dev>";
 
