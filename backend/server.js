@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 const express = require("express");
 const cors = require("cors");
 const serverless = require("serverless-http");
@@ -23,8 +26,8 @@ app.use("/api", require("./routes/applicationRoutes"));
 
 const handler = serverless(app);
 
-// Cloudflare Workers handler export
-module.exports = {
+// Cloudflare Workers ES Module export default
+export default {
   async fetch(request, env, ctx) {
     if (env) {
       if (env.RESEND_API_KEY) process.env.RESEND_API_KEY = env.RESEND_API_KEY;
