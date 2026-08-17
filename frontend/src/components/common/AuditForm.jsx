@@ -76,17 +76,17 @@ const AuditForm = ({ isPopup = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3">
       {status === 'success' && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-start gap-3">
-          <CheckCircle2 size={20} className="text-emerald-600 shrink-0 mt-0.5" />
+        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-start gap-2.5">
+          <CheckCircle2 size={18} className="text-emerald-600 shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold text-sm">Submission Successful!</p>
-            <p className="text-xs mt-0.5">{responseMsg}</p>
+            <p className="font-bold text-xs">Submission Successful!</p>
+            <p className="text-[11px] mt-0.5">{responseMsg}</p>
             <button
               type="button"
               onClick={() => setStatus('idle')}
-              className="text-xs font-bold text-emerald-700 underline mt-2 inline-block cursor-pointer"
+              className="text-[11px] font-bold text-emerald-700 underline mt-1 inline-block cursor-pointer"
             >
               Send another message
             </button>
@@ -95,18 +95,18 @@ const AuditForm = ({ isPopup = false }) => {
       )}
 
       {status === 'error' && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl flex items-start gap-3">
-          <AlertCircle size={20} className="text-rose-600 shrink-0 mt-0.5" />
+        <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl flex items-start gap-2.5">
+          <AlertCircle size={18} className="text-rose-600 shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold text-sm">Submission Failed</p>
-            <p className="text-xs mt-0.5">{responseMsg}</p>
+            <p className="font-bold text-xs">Submission Failed</p>
+            <p className="text-[11px] mt-0.5">{responseMsg}</p>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">FIRST NAME</label>
+          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">FIRST NAME</label>
           <input
             type="text"
             name="firstName"
@@ -114,11 +114,11 @@ const AuditForm = ({ isPopup = false }) => {
             onChange={handleChange}
             placeholder="Rahul"
             required
-            className="w-full px-4 py-3 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-sm text-brand-dark placeholder:text-gray-400"
+            className="w-full px-3 py-2 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-xs text-brand-dark placeholder:text-gray-400"
           />
         </div>
         <div>
-          <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">LAST NAME</label>
+          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">LAST NAME</label>
           <input
             type="text"
             name="lastName"
@@ -126,14 +126,14 @@ const AuditForm = ({ isPopup = false }) => {
             onChange={handleChange}
             placeholder="Sharma"
             required
-            className="w-full px-4 py-3 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-sm text-brand-dark placeholder:text-gray-400"
+            className="w-full px-3 py-2 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-xs text-brand-dark placeholder:text-gray-400"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">EMAIL</label>
+          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">EMAIL</label>
           <input
             type="email"
             name="email"
@@ -141,11 +141,11 @@ const AuditForm = ({ isPopup = false }) => {
             onChange={handleChange}
             placeholder="rahul@company.com"
             required
-            className="w-full px-4 py-3 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-sm text-brand-dark placeholder:text-gray-400"
+            className="w-full px-3 py-2 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-xs text-brand-dark placeholder:text-gray-400"
           />
         </div>
         <div>
-          <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">PHONE NUMBER</label>
+          <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">PHONE NUMBER</label>
           <input
             type="tel"
             name="phone"
@@ -159,13 +159,13 @@ const AuditForm = ({ isPopup = false }) => {
             pattern="[0-9]{10}"
             title="Please enter a valid 10-digit phone number"
             maxLength="10"
-            className="w-full px-4 py-3 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-sm text-brand-dark placeholder:text-gray-400"
+            className="w-full px-3 py-2 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-xs text-brand-dark placeholder:text-gray-400"
           />
         </div>
       </div>
 
       <div className="relative">
-        <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">BUSINESS TYPE</label>
+        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">BUSINESS TYPE</label>
         <CustomSelect
           name="businessType"
           value={formData.businessType}
@@ -182,30 +182,30 @@ const AuditForm = ({ isPopup = false }) => {
       </div>
 
       <div>
-        <label className="block text-[12px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">WHAT DO YOU NEED HELP WITH?</label>
+        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">WHAT DO YOU NEED HELP WITH?</label>
         <textarea
           name="message"
           value={formData.message}
           onChange={handleChange}
-          rows="3"
+          rows="2"
           placeholder="Tell us your biggest challenge..."
           required
-          className="w-full px-4 py-3 bg-white border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-sm text-brand-dark placeholder:text-gray-400 resize-none"
+          className="w-full px-3 py-2 bg-gray-50/50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/10 focus:border-brand-orange transition-all font-medium text-xs text-brand-dark placeholder:text-gray-400 resize-none"
         ></textarea>
       </div>
 
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full py-4 bg-brand-orange text-white rounded-full font-bold text-base hover:bg-[#e64500] hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed transition-all duration-300 shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2"
+        className="w-full py-3 bg-brand-orange text-white rounded-full font-bold text-xs hover:bg-[#e64500] hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed transition-all duration-300 shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 cursor-pointer mt-1"
       >
         {status === 'submitting' ? (
           <>
-            <Loader2 size={18} className="animate-spin" /> Sending...
+            <Loader2 size={16} className="animate-spin" /> Sending...
           </>
         ) : (
           <>
-            Send Message <ArrowRight size={18} />
+            Send Message <ArrowRight size={16} />
           </>
         )}
       </button>

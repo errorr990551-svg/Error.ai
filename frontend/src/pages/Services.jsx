@@ -53,7 +53,15 @@ const PricingCard = ({ plan, price, features, recommended = false }) => (
         </div>
       ))}
     </div>
-    <button className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 ${recommended ? 'bg-brand-orange text-white hover:bg-white hover:text-brand-dark' : 'bg-white border border-gray-200 text-brand-dark hover:bg-brand-dark hover:text-white'}`}>
+    <button 
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.dispatchEvent(new CustomEvent('open-audit-modal'));
+      }}
+      className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 cursor-pointer ${recommended ? 'bg-brand-orange text-white hover:bg-white hover:text-brand-dark' : 'bg-white border border-gray-200 text-brand-dark hover:bg-brand-dark hover:text-white'}`}
+    >
       Get a Quote
     </button>
   </motion.div>
@@ -460,12 +468,17 @@ const Services = () => {
             </div>
 
             <div className="flex-shrink-0">
-              <Link 
-                to="/free-audit"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#FF4D00] text-white rounded-2xl font-bold text-base hover:bg-white hover:text-[#0A0A0A] transition-all duration-300 shadow-xl shadow-orange-500/20 whitespace-nowrap"
+              <button 
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.dispatchEvent(new CustomEvent('open-audit-modal'));
+                }}
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#FF4D00] text-white rounded-2xl font-bold text-base hover:bg-white hover:text-[#0A0A0A] transition-all duration-300 shadow-xl shadow-orange-500/20 whitespace-nowrap cursor-pointer"
               >
                 Book Free Call &rarr;
-              </Link>
+              </button>
             </div>
           </div>
         </div>

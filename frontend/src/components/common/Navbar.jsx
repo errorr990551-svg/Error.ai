@@ -96,12 +96,17 @@ const Navbar = () => {
               Case Studies
             </Link>
 
-            <Link 
-              to="/free-audit" 
-              className="bg-[#0A0A0A] text-white px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 hover:bg-[#FF4D00] hover:shadow-lg flex items-center"
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.dispatchEvent(new CustomEvent('open-audit-modal'));
+              }}
+              className="bg-[#0A0A0A] text-white px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 hover:bg-[#FF4D00] hover:shadow-lg flex items-center cursor-pointer"
             >
               Get a Free Audit
-            </Link>
+            </button>
           </div>
 
 
@@ -158,13 +163,18 @@ const Navbar = () => {
           </Link>
 
           <div className="pt-4 mt-4 border-t border-gray-100">
-            <Link 
-              to="/free-audit" 
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-4 rounded-full font-bold text-lg hover:bg-brand-orange transition-all shadow-lg active:scale-95"
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsOpen(false);
+                window.dispatchEvent(new CustomEvent('open-audit-modal'));
+              }}
+              className="flex items-center justify-center w-full bg-brand-dark text-white px-6 py-4 rounded-full font-bold text-lg hover:bg-brand-orange transition-all shadow-lg active:scale-95 cursor-pointer"
             >
               Get a Free Audit <ArrowRight size={20} className="ml-2" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

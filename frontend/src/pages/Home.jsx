@@ -49,12 +49,17 @@ const Hero = () => (
             >
               Explore Services
             </Link>
-            <Link 
-              to="/free-audit" 
-              className="px-8 py-3.5 bg-transparent text-[#0A0A0A] border-2 border-[#0A0A0A]/10 rounded-xl font-bold text-base hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 inline-block"
+            <button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.dispatchEvent(new CustomEvent('open-audit-modal'));
+              }}
+              className="px-8 py-3.5 bg-transparent text-[#0A0A0A] border-2 border-[#0A0A0A]/10 rounded-xl font-bold text-base hover:bg-[#0A0A0A] hover:text-white transition-all duration-300 inline-block cursor-pointer"
             >
               Free Strategy Call
-            </Link>
+            </button>
           </div>
         </div>
 
