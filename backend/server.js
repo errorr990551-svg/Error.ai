@@ -19,6 +19,15 @@ app.get("/", (c) => c.json({ status: "OK", service: "error-ai-backend" }));
 app.get("/health", (c) => c.json({ status: "OK", timestamp: new Date().toISOString() }));
 app.get("/api/health", (c) => c.json({ status: "OK", timestamp: new Date().toISOString() }));
 
+// Helper to resolve secrets cleanly in Cloudflare Worker / Node environments
+const getResendApiKey = (c) => {
+  return c?.env?.RESEND_API_KEY || (typeof process !== "undefined" ? process.env?.RESEND_API_KEY : undefined);
+};
+
+const getNotificationEmail = (c) => {
+  return c?.env?.NOTIFICATION_EMAIL || (typeof process !== "undefined" ? process.env?.NOTIFICATION_EMAIL : undefined) || "errorr990551@gmail.com";
+};
+
 // Contact form endpoint
 app.post("/api/contact", async (c) => {
   try {
@@ -35,13 +44,11 @@ app.post("/api/contact", async (c) => {
       }, 400);
     }
 
-    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
-    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
-    const ccEmails = (c.env?.RESEND_FROM || process.env.RESEND_FROM) ? ["akshat99055@gmail.com"] : undefined;
+    const apiKey = getResendApiKey(c);
+    const toEmail = getNotificationEmail(c);
 
     await sendMail({
       to: toEmail,
-      cc: ccEmails,
       subject: "New Contact Us / Free Audit Enquiry",
       html: `
         <h2>New Contact / Audit Enquiry</h2>
@@ -73,8 +80,8 @@ app.post("/api/contact", async (c) => {
 app.post("/api/complaint", async (c) => {
   try {
     const body = await c.req.parseBody();
-    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
-    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
+    const apiKey = getResendApiKey(c);
+    const toEmail = getNotificationEmail(c);
 
     const attachments = [];
     if (body.image && body.image instanceof File) {
@@ -121,8 +128,8 @@ app.post("/api/complaint", async (c) => {
 app.post("/api/apply", async (c) => {
   try {
     const body = await c.req.parseBody();
-    const apiKey = c.env?.RESEND_API_KEY || process.env.RESEND_API_KEY || "re_LJHuUnv1_2Uov5UjeMCmcfzu6nSPJGWJ2";
-    const toEmail = c.env?.NOTIFICATION_EMAIL || process.env.NOTIFICATION_EMAIL || "errorr990551@gmail.com";
+    const apiKey = getResendApiKey(c);
+    const toEmail = getNotificationEmail(c);
 
     const attachments = [];
     if (body.resume && body.resume instanceof File) {
